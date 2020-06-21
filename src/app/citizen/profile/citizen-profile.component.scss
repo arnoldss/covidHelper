@@ -1,0 +1,72 @@
+.profile-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding: 5% 0;
+
+  .content {
+    width: 50%;
+
+    .status-container {
+      text-align: center;
+      margin-bottom: 60px;
+
+      .status {
+        font-size: 1.3em;
+        font-weight: bold;
+
+        &.approved {
+          color: #7bc734;
+        }
+
+        &.denied {
+          color: #c94534;
+        }
+      }
+    }
+
+    form {
+      text-align: center;
+
+      button[type="submit"] {
+        margin-top: 17.5px;
+      }
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+      }
+
+      input[type="number"] {
+        -moz-appearance: textfield; /* Firefox */
+      }
+
+      mat-form-field,
+      button {
+        width: 100%;
+      }
+
+      .address-data-form {
+        p {
+          font-weight: bold;
+        }
+
+        .street-controls {
+          display: flex;
+          justify-content: space-between;
+
+          #street-name-control {
+            width: 60%;
+          }
+
+          #street-ext-number-control {
+            width: 30%;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+<div class="sign-in-container">
+  <div>
+    <form [formGroup]="citizenStatusForm" (ngSubmit)="onCitizenSubmit()">
+      <h1>Consulta el estado de tu solicitud</h1>
+      <mat-form-field>
+        <mat-label>CURP</mat-label>
+        <input matInput type="text" placeholder="CURP" formControlName="curp" />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!citizenStatusForm.valid"
+      >
+        Consultar estado de solicitud
+      </button>
+    </form>
+
+    <hr />
+
+    <form [formGroup]="socialWorkerForm" (ngSubmit)="onSocialWorkerSubmit()">
+      <h1>Inicia sesión como trabajador social</h1>
+      <mat-form-field>
+        <mat-label>Correo electrónico</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Correo electrónico"
+          formControlName="email"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!socialWorkerForm.valid"
+      >
+        Iniciar sesión
+      </button>
+    </form>
+  </div>
+</div>

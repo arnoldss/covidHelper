@@ -1,0 +1,179 @@
+<div class="profile-container">
+  <div class="content">
+    <div *ngIf="!retrieveError; else error" class="status-container">
+      <h1>Estatus de tu solicitud</h1>
+      <p
+        class="status"
+        [ngClass]="{ approved: status === 'aprobado', denied: status !== 'aprobado' }"
+      >
+        {{ status | uppercase }}
+      </p>
+      <p *ngIf="status === 'aprobado'">
+        La cantidad de apoyo que te fue aprobada es de: $ {{ amount }}.00 MXN
+      </p>
+    </div>
+
+    <ng-template #error>
+      <div class="status-container">
+        <h1>No encontramos un estatus para tu solicitud :(</h1>
+        <p>
+          Verifica que hayas ingresado correctamente tu CURP o ponte en contacto con
+          nosotros
+        </p>
+        <button mat-raised-button type="button" [routerLink]="['/sign-in']">
+          Volver
+        </button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="form" (ngSubmit)="onRecommendedSubmit()">
+      <h3>
+        ¿Conoces a un amigo que necesite ayuda? Comparte sus datos para que lo contactemos
+      </h3>
+      <div class="citizen-data-form" formGroupName="citizenData">
+        <mat-form-field>
+          <mat-label>Nombre(s)</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Nombre(s)"
+            formControlName="firstname"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Apellido Paterno</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Apellido Paterno"
+            formControlName="paternalLastname"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Apellido Materno</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Apellido Materno"
+            formControlName="maternalLastname"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Correo electrónico (opcional)</mat-label>
+          <input
+            matInput
+            type="email"
+            placeholder="Correo electrónico"
+            formControlName="email"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Número de teléfono (10 dígitos)</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Número de teléfono (10 dígitos)"
+            formControlName="phoneNumber"
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="address-data-form" formGroupName="addressData">
+        <p>Dirección</p>
+        <div class="street-controls">
+          <mat-form-field id="street-name-control">
+            <mat-label>Calle</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Calle"
+              formControlName="streetName"
+            />
+          </mat-form-field>
+
+          <mat-form-field id="street-ext-number-control">
+            <mat-label>Número exterior</mat-label>
+            <input
+              matInput
+              type="number"
+              placeholder="Número exterior"
+              formControlName="streetExtNumber"
+            />
+          </mat-form-field>
+        </div>
+
+        <mat-form-field>
+          <mat-label>Colonia</mat-label>
+          <input matInput type="text" placeholder="Colonia" formControlName="colony" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Municipio</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Municipio"
+            formControlName="municipality"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="stateId">
+            <mat-option *ngFor="let state of states" [value]="state.id">{{
+              state.name
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Código postal</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Código postal"
+            formControlName="postalCode"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Entrecalle 1 (opcional)</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Entrecalle 1 (opcional)"
+            formControlName="betweenStreet1"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Entrecalle 2 (opcional)</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Entrecalle 2 (opcional)"
+            formControlName="betweenStreet2"
+          />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Referencias (opcional)</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Referencias (opcional)"
+            formControlName="streetReference"
+          />
+        </mat-form-field>
+      </div>
+
+      <button mat-raised-button type="submit" color="primary" [disabled]="!form.valid">
+        Recomendar
+      </button>
+    </form>
+  </div>
+</div>

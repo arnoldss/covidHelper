@@ -1,0 +1,137 @@
+<div class="flexContainer">
+  <mat-form-field>
+    <mat-label>Filtro</mat-label>
+    <input
+      matInput
+      (ngModelChange)="applyFilter($event)"
+      placeholder="Ejemplo: Arnoldo Bazaldua"
+      [ngModel]="globalFilter"
+    />
+  </mat-form-field>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>
+          Nombre
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                class="form-field"
+                [formControl]="nameFilter"
+                placeholder="Filtro de Nombre"
+              />
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let citizen">{{ citizen.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="curp">
+        <th mat-header-cell *matHeaderCellDef>
+          Curp
+
+          <div>
+            <mat-form-field>
+              <input
+                matInput
+                class="form-field"
+                [formControl]="curpFilter"
+                placeholder="Filtro de curp"
+              />
+            </mat-form-field> 
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let citizen">{{ citizen.curp }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estatus">
+        <th mat-header-cell *matHeaderCellDef>Estatus de ayuda asignada</th>
+        <td mat-cell *matCellDef="let element">{{ element.programStatus }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="accept">
+        <th mat-header-cell *matHeaderCellDef>Aceptar ayuda a ciudadano</th>
+        <td mat-cell *matCellDef="let citizen">
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="onCitizenAccept(citizen)"
+          >
+            Aceptar
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="socialWorker">
+        
+       
+        <th mat-header-cell *matHeaderCellDef>Asignar trabajador social</th>
+        <td mat-cell *matCellDef="let citizen" class="margins">
+          Actual: {{ citizen.user.username }}
+          <mat-form-field>
+            <mat-label>Trabajador social</mat-label>
+            <mat-select [formControl]="socialWorkerFC">
+              <mat-option 
+                *ngFor="let assignedSocialWorker of socialWorkers"
+                [value]="assignedSocialWorker.id"
+              >
+              
+                {{ assignedSocialWorker.username }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            class="margin3"
+            (click)="onAssignSocialWorker(citizen)"
+          >
+            Asignar
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef>Editar</th>
+        <td mat-cell *matCellDef="let citizen">
+          <button
+            mat-raised-button
+            color="primary"
+            type="button"
+            (click)="onEditCitizen(citizen)"
+          >
+            Editar
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+<div class="flexContainer">
+  <nav mat-tab-nav-bar>
+    <a
+      mat-tab-link
+      *ngFor="let tab of tabs"
+      [disabled]="tab.disabled"
+      [routerLink]="[tab.routeName]"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [active]="rla.isActive"
+    >
+      {{ tab.name }}
+    </a>
+  </nav>
+
+  <router-outlet></router-outlet>
+</div>

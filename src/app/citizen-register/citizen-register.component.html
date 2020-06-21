@@ -1,0 +1,143 @@
+<div class="register-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Curp</mat-label>
+      <input matInput type="text" placeholder="Curp" formControlName="curp" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Nombre(s)</mat-label>
+      <input matInput type="text" placeholder="Nombre" formControlName="firstname" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Apellido Paterno</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Apellido Paterno"
+        formControlName="paternalLastname"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Apellido Materno</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Apellido Materno"
+        formControlName="maternalLastname"
+      />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Fecha de Nacimiento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Estado de Nacimiento</mat-label>
+      <mat-select formControlName="birthStateId">
+        <mat-option *ngFor="let state of states" [value]="state.id">
+          {{ state.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="radio-group">
+      <mat-label>¿Cuenta con un empleo formal?</mat-label>
+      <mat-radio-group formControlName="hasJob" (change)="onHasJobChange($event)">
+        <mat-radio-button value="true">Si</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <mat-form-field *ngIf="form.get('hasJob').value === 'true'">
+      <mat-label>Cantidad recibida en su último salario</mat-label>
+      <input matInput type="number" placeholder="ḾXN" formControlName="lastPaycheckQty" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Cantidad de dependientes</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="Dependientes"
+        formControlName="dependantQty"
+      />
+    </mat-form-field>
+
+    <div class="radio-group">
+      <mat-label>¿El ciudadano es soltero?</mat-label>
+      <mat-radio-group formControlName="isSingle">
+        <mat-radio-button value="true">Si</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div class="radio-group">
+      <mat-label>¿El ciudadano cuenta con otro tipo de apoyo gubernamental?</mat-label>
+      <mat-radio-group
+        formControlName="hasOtherSupport"
+        (change)="onHasOtherSupportChange($event)"
+      >
+        <mat-radio-button value="true">Si</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <ng-container *ngIf="form.get('hasOtherSupport').value === 'true'">
+      <ng-container *ngFor="let support of getGovSupportArray().controls; index as i">
+        <div [formGroup]="support">
+          <mat-form-field>
+            <mat-label>Selecciona el tipo de apoyo</mat-label>
+            <mat-select formControlName="supportType">
+              <mat-option
+                *ngFor="let supportType of govSupportOptions"
+                [value]="supportType.value"
+              >
+                {{ supportType.label }}
+              </mat-option>
+              <mat-option value="other">Otro</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="support.get('supportType').value === 'other'">
+            <mat-label>¿Qué recibes como apoyo?</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Nombre del apoyo"
+              formControlName="otherSupportName"
+            />
+          </mat-form-field>
+        </div>
+        <button
+          mat-raised-button
+          (click)="deleteSupport(i)"
+          class="delete-support-btn"
+          color="primary"
+          type="button"
+        >
+          Eliminar apoyo -
+        </button>
+      </ng-container>
+
+      <button
+        mat-raised-button
+        [disabled]="!getGovSupportArray().valid"
+        (click)="pushGovSupportForm()"
+        color="primary"
+        type="button"
+      >
+        Añadir otro apoyo +
+      </button>
+    </ng-container>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">
+      {{ editMode ? "Actualizar" : "Registrar" }}
+    </button>
+  </form>
+</div>

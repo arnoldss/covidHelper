@@ -1,0 +1,65 @@
+.register-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding: 30px 0;
+
+  form {
+    width: 40%;
+
+    button[type="submit"] {
+      margin-top: 17.5px;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      /* display: none; <- Crashes Chrome on hover */
+      -webkit-appearance: none;
+      margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield; /* Firefox */
+    }
+
+    mat-form-field,
+    button {
+      width: 100%;
+    }
+
+    mat-hint {
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .delete-support-btn {
+      margin-bottom: 17.5px;
+    }
+
+    .radio-group {
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 17.5px;
+
+      mat-label {
+        width: 50%;
+      }
+
+      mat-radio-group {
+        align-items: center;
+        display: flex;
+        justify-content: space-evenly;
+        width: 50%;
+      }
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .register-container {
+    form {
+      width: 80%;
+    }
+  }
+}
